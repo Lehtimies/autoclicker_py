@@ -1,6 +1,7 @@
 import mouse
 import time
 
+# Global variable to control the loop
 running = True
 
 def click_mouse(delay):
@@ -13,25 +14,34 @@ def stop_clicking():
     global running
     running = False
 
-while True:
+def get_user_confirmation():
     while True:
         input_to_run = input("Do you want to run the program? (y/n): ")
-        if input_to_run == 'y' or input_to_run =='n':
+        if input_to_run in ['y', 'n']:
             break
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
-   
-    if input_to_run == 'n':
-        break
-    
+    return input_to_run
+
+def get_user_delay():
     while True:
         try:
             delay = float(input("Enter time delay in seconds: "))
+            break
         except ValueError:
             print("Invalid input. Please enter a number.")
-            continue
-        break
+    return delay
 
-    mouse.on_click(stop_clicking)
+def main():
+    global running
+    while True:
+        user_confirmation = get_user_confirmation()
+        if user_confirmation == 'n':
+            break
+        
+        delay = get_user_delay()
+        running = True
+        mouse.on_click(stop_clicking)
+        click_mouse(delay)
 
-    click_mouse(delay)
+main()
