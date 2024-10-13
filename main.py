@@ -1,4 +1,6 @@
+import threading
 import mouse
+import keyboard
 import time
 
 # Global variable to control the loop
@@ -7,8 +9,9 @@ running = True
 def click_mouse(delay):
     while running:
         time.sleep(delay)
-        #mouse.click()
+        mouse.click()
         print("Clicking...") # For testing purposes
+        keyboard.on_press_key("space", lambda _: stop_clicking())
 
 def stop_clicking():
     global running
@@ -26,7 +29,7 @@ def get_user_confirmation():
 def get_user_delay():
     while True:
         try:
-            delay = float(input("Enter time delay in seconds: "))
+            delay = 1 / float(input("Enter keypresses per second: "))
             break
         except ValueError:
             print("Invalid input. Please enter a number.")
@@ -40,8 +43,10 @@ def main():
             break
         
         delay = get_user_delay()
-        running = True
-        mouse.on_click(stop_clicking)
+        print("Press space to start clicking. Press space again to stop.")
+        keyboard.wait("space")
         click_mouse(delay)
+        keyboard.unhook_all()
+        running = True
 
 main()
