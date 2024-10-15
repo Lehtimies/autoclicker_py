@@ -12,7 +12,7 @@ def click_mouse(delay):
             break
         time.sleep(delay)
         mouse.click()
-        print("Clicking...") # For testing purposes
+        # print("Clicking...") # For testing purposes
         keyboard.on_press_key("g", lambda _: stop_clicking())
 
 def stop_clicking():
